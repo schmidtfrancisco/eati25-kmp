@@ -52,7 +52,7 @@ fun DetailScreen(viewModel: DetailViewModel, onBack: () -> Unit) {
             Scaffold(
                 topBar = {
                     DetailTopBar(
-                        title = state.movie?.title ?: "",
+                        title = state.movie?.title ?: " ",
                         onBack = onBack,
                         scrollBehavior = scrollBehavior
                     )
