@@ -1,17 +1,27 @@
 package edu.eati25.kmp.movies.data
 
+import edu.eati25.kmp.movies.data.database.MoviesDao
+import kotlinx.coroutines.flow.onEach
+
 class MoviesRepository(
+    private val moviesDao: MoviesDao,
     private val moviesService: MoviesService
 ) {
 
-    suspend fun getPopularMovies(): List<Movie> {
-        return moviesService.getPopularMovies().results.map {
-            it.toDomainMovie()
+    val movies = moviesDao.getPopularMovies().onEach { movies ->
+        if (movies.isEmpty()) {
+            val popularMovies = moviesService.getPopularMovies().results.map {
+                it.toDomainMovie()
+            }
+            moviesDao.save(popularMovies)
         }
     }
 
-    suspend fun getMovieById(id: Int): Movie {
-        return moviesService.getMovieDetails(id).toDomainMovie()
+    fun getMovieById(id: Int) = moviesDao.getMovieById(id).onEach {
+        if (it == null) {
+            val movie = moviesService.getMovieDetails(id).toDomainMovie()
+            moviesDao.save(listOf(movie))
+        }
     }
 
     private fun RemoteMovie.toDomainMovie(): Movie {
@@ -25,7 +35,12 @@ class MoviesRepository(
             originalTitle = originalTitle,
             originalLanguage = originalLanguage,
             popularity = popularity,
-            voteAverage = voteAverage
+            voteAverage = voteAverage,
+            isFavorite = false
         )
+    }
+
+    suspend fun toggleFavorite(movie: Movie) {
+        moviesDao.save(listOf(movie.copy(isFavorite = !movie.isFavorite)))
     }
 }

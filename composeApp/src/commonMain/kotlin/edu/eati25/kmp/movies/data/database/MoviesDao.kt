@@ -14,7 +14,7 @@ interface MoviesDao {
     fun getPopularMovies(): Flow<List<Movie>>
 
     @Query("SELECT * FROM Movie WHERE id = :id")
-    fun getMovieById(id: Int): Flow<Movie>
+    fun getMovieById(id: Int): Flow<Movie?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(movies: List<Movie>)
