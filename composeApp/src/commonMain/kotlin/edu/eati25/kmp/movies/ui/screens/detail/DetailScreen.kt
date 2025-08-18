@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import edu.eati25.kmp.movies.data.Movie
 import edu.eati25.kmp.movies.ui.screens.common.LoadingIndicator
+import edu.eati25.kmp.movies.ui.theme.AppTheme
 import kmpmovies.composeapp.generated.resources.Res
 import kmpmovies.composeapp.generated.resources.original_language
 import kmpmovies.composeapp.generated.resources.original_title
@@ -50,7 +51,7 @@ fun DetailScreen(viewModel: DetailViewModel, onBack: () -> Unit) {
     val state = viewModel.state
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
-    MaterialTheme {
+    AppTheme {
         Surface {
             Scaffold(
                 topBar = {

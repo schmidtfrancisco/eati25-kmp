@@ -45,8 +45,10 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
+import edu.eati25.kmp.movies.App
 import edu.eati25.kmp.movies.data.Movie
 import edu.eati25.kmp.movies.ui.screens.common.LoadingIndicator
+import edu.eati25.kmp.movies.ui.theme.AppTheme
 import kmpmovies.composeapp.generated.resources.Res
 import kmpmovies.composeapp.generated.resources.app_name
 import org.jetbrains.compose.resources.stringResource
@@ -59,7 +61,7 @@ fun HomeScreen(
     onMovieClick: (Movie) -> Unit,
     viewModel: HomeViewModel = koinViewModel()
 ) {
-    MaterialTheme {
+    AppTheme {
         Surface {
             val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
             Scaffold(
@@ -69,7 +71,7 @@ fun HomeScreen(
                         scrollBehavior = scrollBehavior
                     )
                 },
-                containerColor = Color.White,
+                containerColor = MaterialTheme.colorScheme.background,
                 modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
             ) { padding ->
                 val state = viewModel.state
@@ -90,7 +92,7 @@ fun HomeScreen(
                     OutlinedTextField(
                         value = state.query,
                         onValueChange = { viewModel.onQueryChange(it) },
-                        label = { Text("Búsqueda")},
+                        label = { Text("Search")},
                         colors = OutlinedTextFieldDefaults.colors(
                             unfocusedBorderColor = Color.LightGray,
                             //focusedBorderColor = Color.Blue,
@@ -98,7 +100,7 @@ fun HomeScreen(
                             focusedContainerColor = Color.White
                         ),
                         modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = 2.dp, bottom = 8.dp),
-                        placeholder = { Text("Ingrese una película")},
+                        placeholder = { Text("Enter a movie")},
                         shape = RoundedCornerShape(24.dp),
                     )
                     LazyVerticalGrid(
